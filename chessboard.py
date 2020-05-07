@@ -1,11 +1,13 @@
-from pawn import *
+#from pawn import *
 from chess_common import *
 from chess_rules import *
+from pawn import *
 
 
 class ChessBoard():
 
     def __init__(self):
+        self.create_board()
         b_p_1 = Pawn("b_pawn_1",PieceColor.Black,1)
         b_p_2 = Pawn("b_pawn_2",PieceColor.Black,2)
         b_p_3 = Pawn("b_pawn_3",PieceColor.Black,3)
@@ -24,8 +26,10 @@ class ChessBoard():
         w_p_8 = Pawn("w_pawn_8",PieceColor.Black,8)
 
 
-    def create_board():
+    def create_board(self):
         pass
+
+        
         
 
 if __name__ == "__main__":

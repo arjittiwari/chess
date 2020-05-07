@@ -8,14 +8,27 @@ class PieceColor(enum.Enum):
 ## Base class for all pieces
 class ChessPiece():
     
-    def __init__ (self,color=PieceColor.Black):
-        self._color = color    
-        print("Black color defaulted for ", self.__class__.__name__)
+    def __init__ (self,name,color=PieceColor.Black):
+        self.name = name
+        self.die_position = None
+        self.last_position = None
+        self.color = color    
 
+    def kill(self):
+        pass
 
+    def die(self):
+        self.die_position = self.last_position
+        pass
+
+    def check_move_position(self,_from,_to):
+        pass
+
+    def check_move_rule(self, _from, _to):
+        pass
 
 if __name__ == "__main__": 
     print (PieceColor.Black.name)
     print (PieceColor.White.name)
-    objPiece = ChessPiece()
+    objPiece = ChessPiece("dummy")
 
