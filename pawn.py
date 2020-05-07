@@ -14,3 +14,5 @@ class Pawn:
         pass
 
     
+if (__name__ == "__main__"):
+    print (type(Pawn), type(PieceColor))
