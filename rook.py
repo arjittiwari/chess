@@ -1,7 +1,7 @@
 from color import *
 from piece import *
 class Rook(Piece):
-    __symbol = "H"
+    __symbol = "#"
     def __init__(self,chess,player,position):
         self.chess = chess
         self.player = player
