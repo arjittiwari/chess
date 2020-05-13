@@ -1,7 +1,7 @@
-from piece import *
 from color import *
-class King(Piece):
-    __symbol = "K"
+from piece import *
+class Knight(Piece):
+    __symbol = "%"
     def __init__(self,chess,player,position):
         self.chess = chess
         self.player = player
@@ -19,7 +19,7 @@ class King(Piece):
     def getColor(self):
         return self.color
     def getSymbol(self):
-        return King.__symbol
+        return Knight.__symbol
     def getPlayerName(self):
         return self.player.name
     def getPosition(self):
@@ -30,4 +30,3 @@ class King(Piece):
         self.chess.setPosition(self)
     def possibleMove(self):
         pass
-    
