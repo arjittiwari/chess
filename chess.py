@@ -1,20 +1,38 @@
-from queen import *
-from rook import *
-from bishop import *
-from pawn import *
-from king import *
-from knight import *
-from player import *
+from queen import Queen
+from rook import Rook
+from bishop import Bishop
+from pawn import Pawn
+from king import King
+from knight import Knight
+from player import Player
 from color import *
-
+from os import system, name
 class Chess:
     __board = []
 
     def __init__(self,player1,player2):
         Chess.__initializeBoard(self)
-        self.setDefaultPieces()
-
-    def setDefaultPieces(self):
+        self.__setDefaultPieces()
+    def clearScreen(self):
+        # for windows 
+        if name == 'nt': 
+            _ = system('cls') 
+    
+        # for mac and linux(here, os.name is 'posix') 
+        else: 
+            _ = system('clear')
+    def getBoard(self):
+        return Chess.__board
+    def getCoordinate(self,position):
+        pos=list(position)
+        if pos[0].isdigit():
+            x=int(pos[0])
+            y=int(ord(pos[1].lower()))-96
+        else:
+            y=int(ord(pos[0].lower()))-96
+            x=int(pos[1])
+        return (x,y)
+    def __setDefaultPieces(self):
         King(self,"black","d8")
         King(self,"white","d1")
         Queen(self,"black","8e")
@@ -43,8 +61,8 @@ class Chess:
         else:
             y=int(ord(pos[0]))-96
             x=int(pos[1])
-        Chess.__board[x][y]=piece
-
+        board=self.getBoard()
+        board[x][y]=piece
     def __initializeBoard(self):
         Chess.__board.append([".","a","b","c","d","e","f","g","h","."])
         Chess.__board.append(["1","-","-","-","-","-","-","-","-","1"])
@@ -58,7 +76,7 @@ class Chess:
         Chess.__board.append([".","a","b","c","d","e","f","g","h","."])
 
     def printBoard(self):
-        for row in self.__board:
+        for row in reversed(self.__board):
             for column in row:
                 if isinstance(column,str):
                     print(Color.GREEN + str(column) + Color.END,end="\t")
@@ -67,9 +85,26 @@ class Chess:
             print("\n\n")
            
 if __name__ == "__main__":
-    p1 = Player("champ1")
-    p2 = Player("champ2")
-    #p3 = Player("champ3")
+    p1 = Player("Ashish","white")
+    p2 = Player("Arjit","black")
     c1 = Chess(p1,p2)
     c1.printBoard()
+    exit = True
+    board=c1.getBoard()
+    while exit:
+        for player in (p1,p2):
+            validEntry = True
+            while validEntry:
+                current=input(player.name+" enter from location->")
+                new=input(player.name+" enter to location->")
+                (x1,y1)=c1.getCoordinate(current)
+                obj=board[x1][y1]
+                if isinstance(obj,str):
+                    print("Invalid start position")
+                elif(obj.move(new)):
+                    validEntry = False
+            c1.clearScreen()
+            c1.printBoard()
+    
+    
 
