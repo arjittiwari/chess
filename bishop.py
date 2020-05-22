@@ -1,5 +1,5 @@
-from color import *
-from piece import *
+from color import Color
+from piece import Piece
 class Bishop(Piece):
       __symbol = "B"
       __count = 7

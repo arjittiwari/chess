@@ -1,5 +1,5 @@
-from piece import *
-from color import *
+from piece import Piece
+from color import Color
 class King(Piece):
     __symbol = "K"
     __count = 1

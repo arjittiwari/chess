@@ -1,5 +1,5 @@
-from color import *
-from piece import *
+from color import Color
+from piece import Piece
 class Rook(Piece):
     __symbol = "#"
     __count = 7

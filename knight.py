@@ -1,5 +1,5 @@
-from color import *
-from piece import *
+from color import Color
+from piece import Piece
 
 class Knight(Piece):
     __symbol = "%"
