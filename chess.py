@@ -6,23 +6,31 @@ from king import King
 from knight import Knight
 from player import Player
 from color import *
-from os import system, name
+import pickle, os
 class Chess:
     __board = []
-
+    pickleFile = "game.pkl"
     def __init__(self,player1,player2):
+        self.player1=player1
+        self.player2=player2
+        self.__board=Chess.__board
         Chess.__initializeBoard(self)
         self.__setDefaultPieces()
+    def loadFromPickel(self):
+        with open(Chess.pickleFile,"rb") as infile:
+            return pickle.load(infile)
+    def dumpToPickel(self):
+        with open(Chess.pickleFile,"wb") as outfile:
+            pickle.dump(self,outfile)
     def clearScreen(self):
         # for windows 
         if name == 'nt': 
-            _ = system('cls') 
-    
+            system('cls') 
         # for mac and linux(here, os.name is 'posix') 
         else: 
-            _ = system('clear')
+            system('clear')
     def getBoard(self):
-        return Chess.__board
+        return self.__board
     def getCoordinate(self,position):
         pos=list(position)
         if pos[0].isdigit():
@@ -85,26 +93,46 @@ class Chess:
             print("\n\n")
            
 if __name__ == "__main__":
-    p1 = Player("Ashish","white")
-    p2 = Player("Arjit","black")
-    c1 = Chess(p1,p2)
+    print("Welcome to arena of Clash of Minds")
+    while True:
+        userInput=input("Please Type one of options below:\n"+
+                    "Please enter N for New Game\n"+
+                    "Please enter J to join active game\n--> "
+                    )
+        if userInput == "n" or userInput == "N":
+            if os.path.exists("game.pkl"):
+                print("Game already exist, please join")
+            else:
+                p1 = Player("Ashish","white")
+                p2 = Player("Arjit","black")
+                global c1 
+                c1 = Chess(p1,p2)
+                c1.dumpToPickel()
+                break
+        elif userInput == "j" or userInput == "J":
+            if os.path.exists("game.pkl"):
+                c1=Chess.loadFromPickel(None)
+                break
+            else:
+                print("No game exist, please create new game")
     c1.printBoard()
-    exit = True
-    board=c1.getBoard()
-    while exit:
-        for player in (p1,p2):
-            validEntry = True
-            while validEntry:
-                current=input(player.name+" enter from location->")
-                new=input(player.name+" enter to location->")
-                (x1,y1)=c1.getCoordinate(current)
-                obj=board[x1][y1]
-                if isinstance(obj,str):
-                    print("Invalid start position")
-                elif(obj.move(new)):
-                    validEntry = False
-            c1.clearScreen()
-            c1.printBoard()
-    
-    
-
+    while True:
+        while True:
+            current=input(" Enter 'From' location or R to refresh board->")
+            if current == "r" or current == "R":
+                c1=Chess.loadFromPickel(None)
+                c1.clearScreen()
+                c1.printBoard()
+                continue
+            new=input(" Enter 'To' location->")
+            (x1,y1)=c1.getCoordinate(current)
+            c1 = Chess.loadFromPickel(None)
+            board=c1.getBoard()
+            obj=board[x1][y1]
+            if isinstance(obj,str):
+                print("Invalid 'From' position")
+            elif(obj.move(new)):
+                break
+        c1.clearScreen()
+        c1.dumpToPickel()
+        c1.printBoard()
